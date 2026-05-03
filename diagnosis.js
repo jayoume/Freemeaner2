@@ -384,7 +384,7 @@ function buildResult() {
   window._diagAnswers  = [...answers];  // 22개 문항별 응답값 저장
 }
 
-/* ── NETLIFY FUNCTION EMAIL SUBMIT ── */
+/* ── 구글폼 EMAIL SUBMIT ── */
 async function submitEmail(e) {
   e.preventDefault();
   const email = $('ec-email').value.trim();
@@ -395,37 +395,36 @@ async function submitEmail(e) {
   btn.disabled = true;
   btn.textContent = '분석 중...';
 
-  const scores     = window._diagScores   || [];
-  const typeKey    = window._diagType     || 'F';
-  const typeName   = window._diagTypeName || '';
-  const avg        = window._diagAvg      || 0;
-  const rawAnswers = window._diagAnswers  || [];
+  const scores   = window._diagScores   || [];
+  const typeKey  = window._diagType     || 'F';
+  const typeName = window._diagTypeName || '';
+  const avg      = window._diagAvg      || 0;
 
-  const payload = {
-    email,
-    name:     name || '익명',
+  const diagData = JSON.stringify({
     typeCode: typeKey,
     typeName: typeName,
     scores:   scores,
     avg:      avg,
-    answers:  rawAnswers,
-  };
+  });
+
+  const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfD3sKKTMcsD5tjd_SR7txccmbwz49iovuNFx83gMJWx2Mogg/formResponse';
+
+  const body = new URLSearchParams();
+  body.append('entry.1927253558', name || '익명');
+  body.append('entry.372901039',  email);
+  body.append('entry.1301437478', diagData);
 
   try {
-    const res = await fetch('/.netlify/functions/send-report', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(payload),
+    await fetch(FORM_URL, {
+      method: 'POST',
+      mode:   'no-cors',
+      body:   body,
     });
 
-    const data = await res.json();
+    // no-cors라 응답 확인 불가 → 성공으로 처리
+    $('ec-form-wrap').style.display = 'none';
+    $('ec-success').classList.add('show');
 
-    if (res.ok && data.success) {
-      $('ec-form-wrap').style.display = 'none';
-      $('ec-success').classList.add('show');
-    } else {
-      throw new Error(data.error || 'submit failed');
-    }
   } catch (err) {
     console.error(err);
     btn.disabled    = false;
