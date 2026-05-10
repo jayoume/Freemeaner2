@@ -496,120 +496,7 @@ nav {
 /* ══════════════════════
    PAYMENT SECTION
 ══════════════════════ */
-.payment-divider {
-  display: flex; align-items: center; gap: 1rem;
-  margin: 2rem 0;
-}
-.payment-divider::before,
-.payment-divider::after {
-  content: ''; flex: 1; height: 0.5px; background: var(--silver);
-}
-.payment-divider-text {
-  font-size: 0.72rem; font-weight: 400; color: var(--mist);
-  letter-spacing: 0.1em; white-space: nowrap;
-}
 
-.report-card {
-  background: var(--ink);
-  border-radius: 10px;
-  padding: 2.5rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-.report-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: var(--gold);
-}
-.rc-badge {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 0.5px solid rgba(184,147,90,0.5);
-  padding: 0.25rem 0.7rem; border-radius: 1px;
-  margin-bottom: 1rem;
-}
-.rc-badge-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--gold);
-  animation: pulse 2s ease infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
-}
-.rc-title {
-  font-family: var(--serif);
-  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
-  font-weight: 300; color: var(--white); line-height: 1.2;
-  margin-bottom: 0.5rem;
-}
-.rc-title em { font-style: italic; color: var(--gold); }
-.rc-sub {
-  font-size: 0.82rem; font-weight: 300;
-  color: rgba(255,255,255,0.6); line-height: 1.75;
-  margin-bottom: 1.75rem;
-}
-.rc-includes {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.5rem; margin-bottom: 2rem;
-}
-.rc-item {
-  display: flex; align-items: center; gap: 0.55rem;
-  font-size: 0.78rem; font-weight: 300;
-  color: rgba(255,255,255,0.7);
-}
-.rc-check {
-  width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
-  background: rgba(184,147,90,0.2);
-  border: 0.5px solid rgba(184,147,90,0.5);
-  display: flex; align-items: center; justify-content: center;
-}
-.rc-check::after {
-  content: ''; width: 4px; height: 7px;
-  border-right: 1.5px solid var(--gold);
-  border-bottom: 1.5px solid var(--gold);
-  transform: rotate(45deg) translateY(-1px);
-}
-.rc-bottom {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-top: 1.5rem;
-  border-top: 0.5px solid rgba(255,255,255,0.1);
-  flex-wrap: wrap; gap: 1rem;
-}
-.rc-price-wrap {}
-.rc-price {
-  font-family: var(--serif); font-style: italic;
-  font-size: 2rem; font-weight: 300; color: var(--gold); line-height: 1;
-}
-.rc-price-note {
-  font-size: 0.68rem; font-weight: 300;
-  color: rgba(255,255,255,0.4); letter-spacing: 0.04em;
-  margin-top: 0.25rem;
-}
-.btn-gumroad {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  background: var(--gold); color: var(--white);
-  border: none; border-radius: 1px;
-  padding: 0.95rem 2rem;
-  font-family: var(--sans); font-size: 0.82rem;
-  font-weight: 500; letter-spacing: 0.1em;
-  cursor: pointer; text-decoration: none;
-  transition: background 0.2s, transform 0.15s;
-}
-.btn-gumroad:hover { background: #a07a44; transform: translateY(-1px); }
-.btn-gumroad-icon { font-size: 0.9rem; }
-.rc-secure {
-  display: flex; align-items: center; gap: 0.35rem;
-  font-size: 0.65rem; font-weight: 300;
-  color: rgba(255,255,255,0.35); letter-spacing: 0.04em;
-  margin-top: 0.75rem;
-}
-.rc-secure::before {
-  content: ''; width: 6px; height: 6px; border-radius: 50%;
-  background: #ff90e8; flex-shrink: 0;
-}
 
 /* ══════════════════════════════
    DIAGNOSIS MOBILE (≤600px)
@@ -645,10 +532,6 @@ nav {
   .radar-card { padding: 1.5rem 1rem; }
 
   /* payment */
-  .report-card { padding: 1.75rem 1.25rem; }
-  .rc-includes { grid-template-columns: 1fr; }
-  .rc-bottom { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
-  .btn-gumroad { width: 100%; justify-content: center; }
   .email-card { padding: 1.75rem 1.25rem; }
   .ec-input-row { flex-direction: column; }
   .ec-submit { height: 44px; }
