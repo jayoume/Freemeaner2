@@ -381,108 +381,53 @@ function buildResult() {
   window._diagType     = typeKey;
   window._diagTypeName = type.name;
   window._diagAvg      = avg;
-  window._diagAnswers  = [...answers];  // 22개 문항별 응답값 저장
+  window._diagAnswers   = [...answers];  // 22개 문항별 응답값 저장
+  window._diagQuestions = QUESTIONS.map(q => q.q);
 }
 
-/* ── FORMSPREE EMAIL SUBMIT ── */
+/* ── NETLIFY FUNCTION 연동 ── */
+const SUBMIT_URL = '/api/diagnosis-submit';
+
 async function submitEmail(e) {
   e.preventDefault();
+
   const email = $('ec-email').value.trim();
   const name  = $('ec-name').value.trim();
   if (!email) return;
 
-  const btn = $('ec-submit');
-  btn.disabled = true;
+  const btn       = $('ec-submit');
+  btn.disabled    = true;
   btn.textContent = '전송 중...';
-
-  const scores   = window._diagScores   || [];
-  const typeKey  = window._diagType     || 'F';
-  const typeName = window._diagTypeName || '';
-  const avg      = window._diagAvg      || 0;
-  const rawAnswers = window._diagAnswers || [];
-
-  // ── 영역별 합산 점수 라인
-  const scoreLines = DOMAINS.map((d, i) =>
-    `${d.name}: ${scores[i] || 0}점 (${getTier(scores[i] || 0).label})`
-  ).join('\n');
-
-  // ── 문항별 응답 상세 (영역별로 그룹핑)
-  let detailLines = '';
-  let qIdx = 0;
-  DOMAINS.forEach((d, di) => {
-    detailLines += `\n[${d.name} · ${scores[di] || 0}점]\n`;
-    for (let i = 0; i < d.count; i++) {
-      const q   = QUESTIONS[qIdx];
-      const ans = rawAnswers[qIdx] || '-';
-      const bar = ['', '★☆☆☆☆', '★★☆☆☆', '★★★☆☆', '★★★★☆', '★★★★★'][ans] || '-';
-      detailLines += `  Q${qIdx + 1}. ${q.q}\n       → ${ans}점 ${bar}\n`;
-      qIdx++;
-    }
-  });
-
-  // ── 문항별 주목 포인트 (1점·2점 낮은 문항 추출)
-  let lowPoints = '';
-  let lowIdx = 0;
-  DOMAINS.forEach((d) => {
-    for (let i = 0; i < d.count; i++) {
-      const ans = rawAnswers[lowIdx] || 3;
-      if (ans <= 2) {
-        lowPoints += `  • [${d.name}] Q${lowIdx + 1}. ${QUESTIONS[lowIdx].q} (${ans}점)\n`;
-      }
-      lowIdx++;
-    }
-  });
-  if (!lowPoints) lowPoints = '  (특별히 낮은 문항 없음)\n';
 
   const payload = {
     email,
-    name: name || '익명',
-    _replyto: email,
-    _subject: `[프리미너 진단] ${name || '익명'}님의 삶 구조 진단 결과`,
-    유형: `[${typeKey}] ${typeName}`,
-    전체평균: `${avg}점`,
-    영역별점수: scoreLines,
-    유형메시지: TYPES[typeKey]?.msg || '',
-    _message: `
-이름: ${name || '익명'}
-이메일: ${email}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-진단 유형: [${typeKey}] ${typeName}
-전체 평균: ${avg}점
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-[영역별 합산 점수]
-${scoreLines}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[문항별 응답 상세]
-${detailLines}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[주목할 낮은 문항 (1~2점)]
-${lowPoints}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[유형 메시지]
-${TYPES[typeKey]?.msg || ''}
-    `.trim(),
+    name:      name || '익명',
+    typeKey:   window._diagType      || 'F',
+    typeName:  window._diagTypeName  || '',
+    avg:       window._diagAvg       || 0,
+    scores:    window._diagScores    || [],
+    answers:   window._diagAnswers   || [],
+    questions: window._diagQuestions || [],
   };
 
   try {
-    const res = await fetch('https://formspree.io/f/xykbrpkq', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(payload),
+    const res  = await fetch(SUBMIT_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
     });
+    const json = await res.json();
 
-    if (res.ok) {
+    if (res.ok && json.ok) {
       $('ec-form-wrap').style.display = 'none';
       $('ec-success').classList.add('show');
     } else {
-      throw new Error('submit failed');
+      throw new Error(json.error || '전송 실패');
     }
-  } catch {
+  } catch (err) {
+    console.error('진단 결과 전송 오류:', err);
     btn.disabled    = false;
-    btn.textContent = '결과 받기 →';
+    btn.textContent = '무료로 받기 →';
     alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
   }
 }
