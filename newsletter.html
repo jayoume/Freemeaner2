@@ -11,722 +11,795 @@
 </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>뉴스레터 · 프리미너 FreeMeaner</title>
-  <meta name="description" content="프리미너 뉴스레터 — 40대 이후 삶의 구조를 재설계하는 큐레이션. 일·수입·건강·관계·의미 구조의 인사이트를 매월 받아보세요." />
+  <title>매거진 · 프리미너 FreeMeaner</title>
+  <meta name="description" content="프리미너 매거진 — 삶의 구조 · 전환의 시간 · AI와 삶. 전체 아카이브를 읽어보세요." />
   <link rel="stylesheet" href="newsletter.css" />
+  <style>
+    /* ══════════════════════
+       아카이브 추가 스타일
+    ══════════════════════ */
+
+    /* HERO */
+    .nl-hero {
+      padding: 9rem 3rem 7rem;
+      background: var(--ink);
+      position: relative; overflow: hidden;
+    }
+    .nl-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 50% 60% at 80% 50%, rgba(184,147,90,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 10% 80%, rgba(138,123,168,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 5rem; align-items: center; position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.2em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--white); margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); display: block; }
+    .hero-sub {
+      font-size: 0.9rem; font-weight: 300; line-height: 1.9;
+      color: rgba(255,255,255,0.55); max-width: 460px; margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+    .hero-series {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+    .hero-series-tag {
+      font-size: 0.68rem; letter-spacing: 0.1em;
+      padding: 0.3rem 0.9rem; border-radius: 20px;
+      border: 0.5px solid; font-weight: 300;
+    }
+
+    /* HERO 우측 구독 카드 */
+    .hero-subscribe {
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid rgba(184,147,90,0.25);
+      border-radius: 8px; padding: 2.5rem 2rem;
+      opacity: 0; animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+    .hs-eyebrow {
+      font-size: 0.62rem; letter-spacing: 0.18em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .hs-title {
+      font-family: var(--serif); font-size: 1.4rem; font-weight: 300;
+      color: var(--white); line-height: 1.3; margin-bottom: 0.8rem;
+    }
+    .hs-desc {
+      font-size: 0.78rem; font-weight: 300; color: rgba(255,255,255,0.45);
+      line-height: 1.8; margin-bottom: 1.5rem;
+    }
+    .hs-btn {
+      display: block; padding: 0.85rem 1.5rem;
+      background: var(--gold); color: var(--ink);
+      text-decoration: none; border-radius: 2px; text-align: center;
+      font-size: 0.8rem; font-weight: 400; letter-spacing: 0.08em;
+      transition: opacity 0.2s;
+    }
+    .hs-btn:hover { opacity: 0.85; }
+    .hs-note {
+      font-size: 0.65rem; color: rgba(255,255,255,0.25);
+      text-align: center; margin-top: 0.8rem; letter-spacing: 0.06em;
+    }
+
+    /* 시리즈 필터 탭 */
+    .filter-bar {
+      background: var(--paper);
+      border-bottom: 0.5px solid rgba(0,0,0,0.08);
+      position: sticky; top: 72px; z-index: 50;
+      padding: 0 3rem;
+    }
+    .filter-bar-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 0; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-bar-inner::-webkit-scrollbar { display: none; }
+    .fb-tab {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 1rem 1.4rem; border: none; background: none;
+      font-family: var(--sans); font-size: 0.75rem; font-weight: 300;
+      color: var(--mist); letter-spacing: 0.08em;
+      cursor: pointer; white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .fb-tab.active { color: var(--ink); border-bottom-color: var(--gold); }
+    .fb-tab:hover { color: var(--ink); }
+    .fb-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+    }
+
+    /* 아카이브 메인 */
+    .archive-main {
+      max-width: 1100px; margin: 0 auto;
+      padding: 5rem 3rem;
+    }
+
+    /* 최신 호 피처드 */
+    .featured-section { margin-bottom: 5rem; }
+    .section-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.18em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .featured-card {
+      display: grid; grid-template-columns: 1fr 280px;
+      background: var(--ink);
+      border-radius: 8px; overflow: hidden;
+      text-decoration: none;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .featured-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+    }
+    .fc-left {
+      padding: 3.5rem; position: relative; overflow: hidden;
+    }
+    .fc-left::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 0% 100%, rgba(184,147,90,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .fc-issue {
+      font-size: 0.65rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.35);
+      text-transform: uppercase; margin-bottom: 0.8rem;
+      position: relative; z-index: 1;
+    }
+    .fc-series {
+      display: inline-block; margin-bottom: 1.2rem;
+      font-size: 0.65rem; letter-spacing: 0.12em;
+      padding: 0.25rem 0.7rem; border-radius: 20px; border: 0.5px solid;
+      position: relative; z-index: 1;
+    }
+    .fc-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 300; line-height: 1.15;
+      color: var(--white); margin-bottom: 1rem;
+      position: relative; z-index: 1;
+    }
+    .fc-title em { font-style: italic; color: var(--gold); }
+    .fc-desc {
+      font-size: 0.85rem; font-weight: 300; line-height: 1.85;
+      color: rgba(255,255,255,0.5); max-width: 420px; margin-bottom: 2rem;
+      position: relative; z-index: 1;
+    }
+    .fc-meta {
+      display: flex; gap: 1.5rem;
+      font-size: 0.7rem; color: rgba(255,255,255,0.3);
+      letter-spacing: 0.08em; position: relative; z-index: 1;
+    }
+    .fc-right {
+      background: rgba(255,255,255,0.03);
+      border-left: 0.5px solid rgba(255,255,255,0.06);
+      padding: 3.5rem 2.5rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .fc-vol {
+      font-family: var(--serif); font-style: italic;
+      font-size: 4rem; font-weight: 300;
+      color: rgba(184,147,90,0.2); line-height: 1;
+    }
+    .fc-read-btn {
+      display: inline-block; padding: 0.75rem 1.5rem;
+      background: var(--gold); color: var(--ink);
+      border-radius: 2px; font-size: 0.78rem;
+      font-weight: 400; letter-spacing: 0.1em;
+      align-self: flex-start;
+    }
+
+    /* 아카이브 그리드 */
+    .archive-section { }
+    .archive-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .archive-card {
+      background: var(--white);
+      border: 0.5px solid rgba(0,0,0,0.08);
+      border-radius: 8px; overflow: hidden;
+      text-decoration: none;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      display: flex; flex-direction: column;
+    }
+    .archive-card:hover {
+      border-color: rgba(184,147,90,0.35);
+      box-shadow: 0 6px 28px rgba(184,147,90,0.1);
+      transform: translateY(-2px);
+    }
+    .ac-top {
+      padding: 1.75rem 1.75rem 0;
+    }
+    .ac-series {
+      display: inline-block; margin-bottom: 1rem;
+      font-size: 0.62rem; letter-spacing: 0.12em;
+      padding: 0.22rem 0.65rem; border-radius: 20px; border: 0.5px solid;
+    }
+    .ac-title {
+      font-family: var(--serif); font-size: 1.2rem; font-weight: 400;
+      color: var(--ink); line-height: 1.3; margin-bottom: 0.6rem;
+    }
+    .ac-title em { font-style: italic; color: var(--gold); }
+    .ac-desc {
+      font-size: 0.78rem; font-weight: 300; color: var(--mist);
+      line-height: 1.75;
+    }
+    .ac-bottom {
+      padding: 1.25rem 1.75rem 1.5rem;
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 0.5px solid rgba(0,0,0,0.05);
+    }
+    .ac-meta {
+      font-size: 0.68rem; color: var(--silver); letter-spacing: 0.06em;
+    }
+    .ac-arrow {
+      font-size: 0.78rem; color: var(--gold); letter-spacing: 0.06em;
+    }
+    .ac-vol {
+      font-family: var(--serif); font-style: italic;
+      font-size: 0.8rem; color: var(--silver);
+    }
+
+    /* 빈 상태 */
+    .archive-empty-state {
+      text-align: center; padding: 6rem 2rem;
+    }
+    .aes-icon {
+      font-family: var(--serif); font-style: italic;
+      font-size: 4rem; color: var(--gold); opacity: 0.3;
+      margin-bottom: 1.5rem;
+    }
+    .aes-title {
+      font-family: var(--serif); font-size: 1.8rem; font-weight: 300;
+      color: var(--ink); margin-bottom: 1rem;
+    }
+    .aes-sub {
+      font-size: 0.88rem; font-weight: 300; color: var(--mist);
+      line-height: 1.85; margin-bottom: 2rem;
+    }
+    .aes-preview {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-size: 0.75rem; color: var(--gold); letter-spacing: 0.08em;
+      padding: 0.8rem 1.5rem;
+      border: 0.5px solid rgba(184,147,90,0.35);
+      border-radius: 2px; text-decoration: none;
+    }
+
+    /* 구독 CTA 섹션 */
+    .subscribe-section {
+      background: var(--gold-pale);
+      border-top: 0.5px solid rgba(184,147,90,0.2);
+      padding: 5rem 3rem; text-align: center;
+    }
+    .ss-inner { max-width: 560px; margin: 0 auto; }
+    .ss-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .ss-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 300; color: var(--ink);
+      line-height: 1.2; margin-bottom: 1rem;
+    }
+    .ss-title em { font-style: italic; color: var(--gold); }
+    .ss-sub {
+      font-size: 0.88rem; font-weight: 300; color: var(--mist);
+      line-height: 1.85; margin-bottom: 2rem;
+    }
+    .ss-btn {
+      display: inline-block; padding: 0.9rem 2.2rem;
+      background: var(--ink); color: var(--white);
+      text-decoration: none; border-radius: 2px;
+      font-size: 0.8rem; letter-spacing: 0.1em;
+      transition: background 0.2s;
+    }
+    .ss-btn:hover { background: var(--ink-soft); }
+    .ss-note {
+      font-size: 0.7rem; color: var(--silver); margin-top: 1rem;
+      letter-spacing: 0.06em;
+    }
+
+    /* 필터 없는 결과 */
+    .no-result {
+      text-align: center; padding: 4rem;
+      font-size: 0.88rem; color: var(--mist); font-weight: 300;
+      grid-column: 1 / -1;
+    }
+
+    /* 반응형 */
+    @media (max-width: 1000px) {
+      .archive-grid { grid-template-columns: repeat(2, 1fr); }
+      .featured-card { grid-template-columns: 1fr; }
+      .fc-right { display: none; }
+    }
+    @media (max-width: 700px) {
+      .nl-hero { padding: 7rem 1.5rem 4rem; }
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-subscribe { display: none; }
+      .filter-bar { padding: 0 1rem; }
+      .archive-main { padding: 3rem 1.5rem; }
+      .archive-grid { grid-template-columns: 1fr; }
+      .fc-left { padding: 2rem; }
+      .subscribe-section { padding: 3rem 1.5rem; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════
-     NAV
-══════════════════════════════ -->
+<!-- NAV -->
 <nav>
   <a class="nav-logo" href="index.html">프리미너 <em>FreeMeaner</em></a>
   <ul class="nav-links">
     <li><a href="index.html">홈</a></li>
-    <li><a href="index.html#philosophy">철학 · 5대 영역</a></li>
-    <li><a href="newsletter.html" class="active">뉴스레터</a></li>
+    <li><a href="about.html">소개</a></li>
+    <li><a href="index.html#philosophy">철학</a></li>
+    <li><a href="newsletter.html" class="active">매거진</a></li>
     <li><a href="diagnosis.html">진단</a></li>
-    <li><a href="workbook.html">워크북</a></li>
+    <li><a href="workbook.html">저서</a></li>
   </ul>
-  <a class="nav-cta" href="diagnosis.html">삶 구조 진단 →</a>
+  <a class="nav-cta" href="diagnosis.html">무료 진단 →</a>
   <button class="hamburger" id="hamburger" aria-label="메뉴">
     <span></span><span></span><span></span>
   </button>
 </nav>
 <div class="mobile-nav" id="mobile-nav">
   <a href="index.html">홈</a>
+  <a href="about.html">소개</a>
   <a href="index.html">철학 · 5대 영역</a>
-  <a href="newsletter.html">뉴스레터</a>
+  <a href="newsletter.html">매거진</a>
   <a href="diagnosis.html">진단</a>
-  <a href="workbook.html">워크북</a>
-  <a href="diagnosis.html" class="mn-cta">삶 구조 진단 →</a>
+  <a href="workbook.html">저서</a>
+  <a href="diagnosis.html" class="mn-cta">무료 진단 →</a>
 </div>
 
 
-<!-- ══════════════════════════════
+<!-- ══════════════
      HERO
-══════════════════════════════ -->
+══════════════ -->
 <section class="nl-hero">
-  <div class="nl-hero-left">
-    <div class="nl-eyebrow">Monthly Newsletter · 월간 뉴스레터</div>
-    <h1 class="nl-hero-title">
-      삶의 구조를<br>
-      <em>다시 보는</em><br>
-      월간 레터
-    </h1>
-    <p class="nl-hero-sub">
-      40대 이후 전환기를 살아가는 이들을 위한 큐레이션.<br>
-      일·수입·건강·관계·의미, 5개 구조 영역의<br>
-      인사이트를 매월 프리미너 관점으로 정리합니다.
-    </p>
-  </div>
-  <div class="nl-hero-right">
-    <div class="nl-stats">
-      <div>
-        <div class="nl-stat-num" id="stat-issues">0</div>
-        <div class="nl-stat-label">발행 호수</div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Monthly Newsletter · 월간 매거진</div>
+      <h1 class="hero-title">
+        프리미너<br>
+        <em>매거진</em>
+      </h1>
+      <p class="hero-sub">
+        삶의 구조 · 전환의 시간 · AI와 삶.<br>
+        40대 이후를 살아가는 이들을 위한 월간 아티클.
+      </p>
+      <div class="hero-series">
+        <span class="hero-series-tag" style="color:#B8935A;border-color:rgba(184,147,90,0.4);">삶의 구조</span>
+        <span class="hero-series-tag" style="color:#2D6A5F;border-color:rgba(45,106,95,0.4);">전환의 시간</span>
+        <span class="hero-series-tag" style="color:#8A7BA8;border-color:rgba(138,123,168,0.4);">AI와 삶</span>
       </div>
-      <div>
-        <div class="nl-stat-num">5</div>
-        <div class="nl-stat-label">구조 영역</div>
-      </div>
-      <div>
-        <div class="nl-stat-num">월간</div>
-        <div class="nl-stat-label">발행 주기</div>
-      </div>
+    </div>
+    <div class="hero-subscribe reveal d2">
+      <div class="hs-eyebrow">Magazine · 매거진</div>
+      <div class="hs-title">새 호 발행 시<br>이메일로 받기</div>
+      <p class="hs-desc">매월 1회 발행.<br>구독자에게 가장 먼저 전달됩니다.</p>
+      <a class="hs-btn" href="https://page.stibee.com/subscriptions/487973" target="_blank" rel="noopener">
+        무료 구독하기 →
+      </a>
+      <p class="hs-note">무료 · 언제든 구독 취소 가능</p>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════════════════════
-     SUBSCRIBE BAND
-══════════════════════════════ -->
-<div class="subscribe-band">
-  <div class="sb-left">
-    <div class="sb-title">프리미너 레터 구독하기</div>
-    <div class="sb-sub">매월 1회 · 무료 · 언제든 구독 취소 가능</div>
+<!-- ══════════════
+     필터 탭
+══════════════ -->
+<div class="filter-bar" id="filter-bar">
+  <div class="filter-bar-inner">
+    <button class="fb-tab active" data-filter="all">전체 보기</button>
+    <button class="fb-tab" data-filter="structure">
+      <span class="fb-dot" style="background:#B8935A;"></span>삶의 구조
+    </button>
+    <button class="fb-tab" data-filter="resource">
+      <span class="fb-dot" style="background:#7B9E87;"></span>삶의 자원
+    </button>
+    <button class="fb-tab" data-filter="transition">
+      <span class="fb-dot" style="background:#2D6A5F;"></span>전환의 시간
+    </button>
+    <button class="fb-tab" data-filter="psychology">
+      <span class="fb-dot" style="background:#A0856C;"></span>전환의 심리
+    </button>
+    <button class="fb-tab" data-filter="inner">
+      <span class="fb-dot" style="background:#8A7BA8;"></span>내면의 기술
+    </button>
+    <button class="fb-tab" data-filter="growth">
+      <span class="fb-dot" style="background:#4A7FA5;"></span>성장의 기술
+    </button>
+    <button class="fb-tab" data-filter="legacy">
+      <span class="fb-dot" style="background:#888078;"></span>레거시
+    </button>
   </div>
-  <div class="sb-right">
-    <div class="sb-badge">FREE</div>
-    <!-- 스티비 구독 링크: 스티비 가입 후 아래 href를 실제 구독 폼 URL로 교체하세요 -->
-    <a class="btn-subscribe" href="https://page.stibee.com/subscriptions/487973" target="_blank" rel="noopener" id="btn-subscribe-top">
-      무료 구독하기 →
+</div>
+
+
+<!-- ══════════════
+     아카이브 메인
+══════════════ -->
+<div class="archive-main">
+
+  <!-- 피처드 (최신 호) -->
+  <div id="featured-wrap"></div>
+
+  <!-- 아카이브 그리드 -->
+  <div class="archive-section">
+    <div class="section-eyebrow" id="archive-eyebrow" style="display:none;">전체 아카이브</div>
+    <div class="archive-grid" id="archive-grid"></div>
+  </div>
+
+  <!-- 빈 상태 -->
+  <div class="archive-empty-state" id="empty-state">
+    <div class="aes-icon">✦</div>
+    <h2 class="aes-title">첫 번째 호를<br>준비하고 있습니다</h2>
+    <p class="aes-sub">
+      구독하시면 발행과 동시에<br>
+      이메일로 가장 먼저 받아보실 수 있습니다.
+    </p>
+    <a class="aes-preview" href="https://page.stibee.com/subscriptions/487973" target="_blank" rel="noopener">
+      미리 구독하기 →
     </a>
   </div>
+
 </div>
 
 
-<!-- ══════════════════════════════
-     DOMAIN HUB NAV TABS
-══════════════════════════════ -->
-<div class="domain-hub-nav" id="domain-hub-nav">
-  <button class="dhn-tab active" data-domain="all">
-    전체 보기
-  </button>
-  <button class="dhn-tab" data-domain="work">
-    <div class="dhn-dot" style="background:#B8935A;"></div>일 구조
-  </button>
-  <button class="dhn-tab" data-domain="income">
-    <div class="dhn-dot" style="background:#2D6A5F;"></div>수입 구조
-  </button>
-  <button class="dhn-tab" data-domain="health">
-    <div class="dhn-dot" style="background:#7B9E87;"></div>건강 구조
-  </button>
-  <button class="dhn-tab" data-domain="relation">
-    <div class="dhn-dot" style="background:#A0856C;"></div>관계 구조
-  </button>
-  <button class="dhn-tab" data-domain="meaning">
-    <div class="dhn-dot" style="background:#8A7BA8;"></div>의미 구조
-  </button>
-</div>
+<!-- ══════════════
+     구독 CTA
+══════════════ -->
+<section class="subscribe-section">
+  <div class="ss-inner reveal">
+    <div class="ss-eyebrow">Magazine · 매거진</div>
+    <h2 class="ss-title">매월 가장 먼저<br><em>받아보세요</em></h2>
+    <p class="ss-sub">
+      구독자에게는 발행과 동시에 이메일로 전달됩니다.<br>
+      무료 · 언제든 구독 취소 가능합니다.
+    </p>
+    <a class="ss-btn" href="https://page.stibee.com/subscriptions/487973" target="_blank" rel="noopener">
+      무료 구독하기 →
+    </a>
+    <p class="ss-note">매월 1회 발행</p>
+  </div>
+</section>
 
 
-<!-- ══════════════════════════════
-     MAIN CONTENT
-══════════════════════════════ -->
-<main class="nl-main">
-
-  <!-- ── LIST VIEW ── -->
-  <div id="view-list">
-
-    <!-- Domain Hub Section -->
-    <section class="section-domain-hub" id="section-hub">
-      <div class="sh-header">
-        <h2 class="sh-title">도메인 <em>허브</em></h2>
-        <div class="sh-count">5개 구조 영역</div>
-      </div>
-      <div class="domain-hub-grid">
-        <div class="dhg-card" data-filter-domain="work" onclick="filterDomain('work')">
-          <div class="dhg-num" style="color:#B8935A;">01</div>
-          <div class="dhg-dot" style="background:#B8935A;"></div>
-          <div class="dhg-name">일 구조</div>
-          <div class="dhg-en">WORK STRUCTURE</div>
-          <div class="dhg-desc">소모적 일에서 축적적 일로. 시간이 지날수록 자산이 되는 일의 방식을 설계합니다.</div>
-          <div class="dhg-count" id="hub-count-work">관련 레터 0편</div>
-          <div class="dhg-arrow">→</div>
-        </div>
-        <div class="dhg-card" data-filter-domain="income" onclick="filterDomain('income')">
-          <div class="dhg-num" style="color:#2D6A5F;">02</div>
-          <div class="dhg-dot" style="background:#2D6A5F;"></div>
-          <div class="dhg-name">수입 구조</div>
-          <div class="dhg-en">INCOME STRUCTURE</div>
-          <div class="dhg-desc">단일 수입의 취약성을 넘어 복수의 수입 경로를 단계적으로 구축합니다.</div>
-          <div class="dhg-count" id="hub-count-income">관련 레터 0편</div>
-          <div class="dhg-arrow">→</div>
-        </div>
-        <div class="dhg-card" data-filter-domain="health" onclick="filterDomain('health')">
-          <div class="dhg-num" style="color:#7B9E87;">03</div>
-          <div class="dhg-dot" style="background:#7B9E87;"></div>
-          <div class="dhg-name">건강 구조</div>
-          <div class="dhg-en">HEALTH STRUCTURE</div>
-          <div class="dhg-desc">40대 이후 신체 변화에 맞는 운동·영양·수면 구조를 체계적으로 설계합니다.</div>
-          <div class="dhg-count" id="hub-count-health">관련 레터 0편</div>
-          <div class="dhg-arrow">→</div>
-        </div>
-        <div class="dhg-card" data-filter-domain="relation" onclick="filterDomain('relation')">
-          <div class="dhg-num" style="color:#A0856C;">04</div>
-          <div class="dhg-dot" style="background:#A0856C;"></div>
-          <div class="dhg-name">관계 구조</div>
-          <div class="dhg-en">RELATION STRUCTURE</div>
-          <div class="dhg-desc">관계의 양에서 질로. 의도적으로 선택한 관계망을 설계합니다.</div>
-          <div class="dhg-count" id="hub-count-relation">관련 레터 0편</div>
-          <div class="dhg-arrow">→</div>
-        </div>
-        <div class="dhg-card" data-filter-domain="meaning" onclick="filterDomain('meaning')">
-          <div class="dhg-num" style="color:#8A7BA8;">05</div>
-          <div class="dhg-dot" style="background:#8A7BA8;"></div>
-          <div class="dhg-name">의미 구조</div>
-          <div class="dhg-en">MEANING STRUCTURE</div>
-          <div class="dhg-desc">외부 목표에서 내면 가치로. 충만한 삶을 위한 의미 구조를 설계합니다.</div>
-          <div class="dhg-count" id="hub-count-meaning">관련 레터 0편</div>
-          <div class="dhg-arrow">→</div>
-        </div>
-      </div>
-    </section><!-- /section-domain-hub -->
-
-    <!-- Archive Section -->
-    <section class="section-archive" id="section-archive">
-      <div class="archive-toolbar">
-        <div class="at-left">
-          <h2 class="at-title">레터 <em>아카이브</em></h2>
-        </div>
-        <div class="at-right" id="filter-btns">
-          <button class="filter-btn active" data-filter="all">전체</button>
-          <button class="filter-btn" data-filter="work">일 구조</button>
-          <button class="filter-btn" data-filter="income">수입 구조</button>
-          <button class="filter-btn" data-filter="health">건강 구조</button>
-          <button class="filter-btn" data-filter="relation">관계 구조</button>
-          <button class="filter-btn" data-filter="meaning">의미 구조</button>
-        </div>
-      </div>
-
-      <!-- Featured (latest) issue — shown only when issues exist -->
-      <div id="featured-wrap" style="display:none;"></div>
-
-      <!-- Archive list -->
-      <div class="archive-list" id="archive-list"></div>
-
-      <!-- Empty / Coming soon state -->
-      <div class="nl-coming-soon" id="coming-soon-block">
-        <div class="ncs-icon">✉</div>
-        <h3 class="ncs-title">첫 번째 레터를<br>준비하고 있습니다</h3>
-        <p class="ncs-sub">
-          구독 신청을 해두시면<br>
-          발행과 동시에 이메일로 받아보실 수 있습니다.
-        </p>
-        <!-- 스티비 구독 링크 -->
-        <a class="btn-subscribe" href="https://page.stibee.com/subscriptions/487973" target="_blank" rel="noopener">
-          미리 구독하기 →
-        </a>
-        <div class="ncs-first-issue">
-          <div class="ncs-dot"></div>
-          1호 주제: 의미 구조 — 왜 사는가를 다시 묻다
-        </div>
-      </div>
-
-    </section><!-- /section-archive -->
-
-  </div><!-- /view-list -->
-
-
-  <!-- ── ISSUE DETAIL VIEW ── -->
-  <div id="view-detail" class="issue-detail">
-
-    <div class="issue-nav-bar">
-      <button class="btn-back-list" id="btn-back">← 아카이브로 돌아가기</button>
-    </div>
-
-    <div class="issue-header" id="detail-header">
-      <!-- Populated by JS -->
-    </div>
-
-    <div class="issue-body">
-      <div class="issue-content" id="detail-content">
-        <!-- Populated by JS -->
-      </div>
-      <aside class="issue-sidebar">
-        <div class="sidebar-subscribe">
-          <div class="ss-label">NEWSLETTER · 뉴스레터</div>
-          <div class="ss-title">다음 호도<br>받아보세요</div>
-          <p class="ss-sub">매월 1회, 삶 구조 재설계 인사이트를 이메일로 받아보세요.</p>
-          <!-- 스티비 구독 링크 -->
-          <a class="ss-btn" href="https://page.stibee.com/subscriptions/487973" target="_blank" rel="noopener">무료 구독하기 →</a>
-        </div>
-        <div class="sidebar-related">
-          <div class="sr-label">관련 레터</div>
-          <div class="sr-items" id="related-items">
-            <!-- Populated by JS -->
-          </div>
-        </div>
-      </aside>
-    </div>
-
-  </div><!-- /view-detail -->
-
-</main>
-
-
-<!-- ══════════════════════════════
-     FOOTER
-══════════════════════════════ -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <a class="footer-logo" href="index.html">프리미너 <em>FreeMeaner</em></a>
     <ul class="footer-links">
       <li><a href="index.html">홈</a></li>
-      <li><a href="index.html">철학</a></li>
-      <li><a href="newsletter.html">뉴스레터</a></li>
+      <li><a href="about.html">소개</a></li>
+      <li><a href="newsletter.html">매거진</a></li>
       <li><a href="diagnosis.html">진단</a></li>
-      <li><a href="workbook.html">워크북</a></li>
+      <li><a href="workbook.html">저서</a></li>
     </ul>
   </div>
-  <p class="footer-copy">© 2025 FreeMeaner · 프리미너. Life Redesign Framework.</p>
+  <p class="footer-copy">© 2026 FreeMeaner · 프리미너. Life Redesign Framework.</p>
 </footer>
 
 
-<!-- ══════════════════════════════
-     DATA & SCRIPTS
-══════════════════════════════ -->
 <script>
-/* ════════════════════════════════════════
-   NEWSLETTER DATA
-   ─────────────────────────────────────
-   새 호를 발행할 때마다 이 배열에 객체를 추가하세요.
-   가장 최신 호를 배열 맨 앞에 추가합니다.
+var ISSUES = [
+  {
+    id:     "vol20",
+    vol:    "Vol.20",
+    series: "legacy",
+    title:  "나는 무엇을 <em>남기고 싶은가</em>",
+    desc:   "삶을 설계한다는 것의 마지막 질문이다. 레거시는 죽음 이후의 이야기가 아니다. 오늘의 선택이 만드는 것이다. 레거시 특집호.",
+    url:    "newsletter/newsletter-vol20.html"
+  },
+  {
+    id:     "vol19",
+    vol:    "Vol.19",
+    series: "growth",
+    title:  "감사는 감정이 아니라 <em>훈련이다</em>",
+    desc:   "감사하라는 말은 많다. 그런데 어떻게 감사하는지를 아는 사람은 드물다. 감사는 느끼는 것이 아니라 만드는 것이다.",
+    url:    "newsletter/newsletter-vol19.html"
+  },
+  {
+    id:     "vol18",
+    vol:    "Vol.18",
+    series: "growth",
+    title:  "채우는 삶과 <em>비우는 삶</em>",
+    desc:   "꽉 찬 삶이 오히려 새로운 것이 들어올 공간을 막는다. 물리적·정신적·시간적 공간을 비우는 것이 성장의 조건이다.",
+    url:    "newsletter/newsletter-vol18.html"
+  },
+  {
+    id:     "vol17",
+    vol:    "Vol.17",
+    series: "growth",
+    title:  "두렵지만 <em>하는 것</em>",
+    desc:   "용기는 두렵지 않은 상태가 아니다. 두렵지만 하는 것이다. 40대의 가장 큰 적은 실패가 아니라 시도하지 않는 것이다.",
+    url:    "newsletter/newsletter-vol17.html"
+  },
+  {
+    id:     "vol16",
+    vol:    "Vol.16",
+    series: "growth",
+    title:  "나이 들수록 배움이 <em>느려지는 이유</em>",
+    desc:   "배움이 느려지는 것은 뇌의 문제가 아니다. 배우는 방식이 바뀌지 않았기 때문이다. 성인 학습의 구조를 다시 설계한다.",
+    url:    "newsletter/newsletter-vol16.html"
+  },
+  {
+    id:     "vol15",
+    vol:    "Vol.15",
+    series: "transition",
+    title:  "빠르게 살지 않고 <em>오래 잘 사는 법</em>",
+    desc:   "삶은 단거리 경주가 아니다. 지속 가능한 속도, 지속 가능한 구조가 10년을 버티게 한다. 지속 가능한 삶 특집호.",
+    url:    "newsletter/newsletter-vol15.html"
+  },
+  {
+    id:     "vol14",
+    vol:    "Vol.14",
+    series: "inner",
+    title:  "좋은 결정보다 <em>빠른 결정이 낫다</em>",
+    desc:   "완벽한 결정을 기다리다 아무것도 결정하지 못하는 것이 가장 나쁜 결정이다. 40대의 결정 피로는 구조의 문제다.",
+    url:    "newsletter/newsletter-vol14.html"
+  },
+  {
+    id:     "vol13",
+    vol:    "Vol.13",
+    series: "inner",
+    title:  "쓰지 않으면 <em>생각도 쌓이지 않는다</em>",
+    desc:   "글쓰기는 표현이 아니라 사고의 도구다. 쓰면서 비로소 생각이 정리되고, 쓰면서 내가 무엇을 모르는지를 알게 된다.",
+    url:    "newsletter/newsletter-vol13.html"
+  },
+  {
+    id:     "vol12",
+    vol:    "Vol.12",
+    series: "inner",
+    title:  "혼자 있는 것과 <em>혼자일 수 있는 것</em>",
+    desc:   "고독을 견디는 사람과 즐기는 사람은 삶의 구조가 다르다. 혼자 있는 능력이 관계의 질을 결정한다.",
+    url:    "newsletter/newsletter-vol12.html"
+  },
+  {
+    id:     "vol11",
+    vol:    "Vol.11",
+    series: "resource",
+    title:  "돈을 버는 것과 <em>돈이 일하게 하는 것</em>",
+    desc:   "수입을 늘리는 것과 자산을 만드는 것은 다른 게임이다. 40대 이후의 돈은 모으는 것이 아니라 구조화하는 것이다.",
+    url:    "newsletter/newsletter-vol11.html"
+  },
+  {
+    id:     "vol10",
+    vol:    "Vol.10",
+    series: "transition",
+    title:  "의지가 아니라 <em>구조가 행동을 만든다</em>",
+    desc:   "알고 있는데 하지 못한다면 의지의 문제가 아니라 설계의 문제다. 루틴은 만드는 것이 아니라 설계하는 것이다. 실천 특집호.",
+    url:    "newsletter/newsletter-vol10.html"
+  },
+  {
+    id:     "vol09",
+    vol:    "Vol.9",
+    series: "psychology",
+    title:  "역할이 사라졌을 때 <em>나는 누구인가</em>",
+    desc:   "직함·소속·역할로 나를 정의해온 사람에게 전환기는 정체성의 위기로 온다. 그 위기는 약점이 아니라 재설계의 입구다.",
+    url:    "newsletter/newsletter-vol09.html"
+  },
+  {
+    id:     "vol08",
+    vol:    "Vol.8",
+    series: "resource",
+    title:  "에너지를 쓰는 사람과 <em>만드는 사람</em>",
+    desc:   "피로는 일의 문제가 아니다. 회복 구조가 없는 삶은 결국 소진된다. 에너지는 아끼는 것이 아니라 설계하는 것이다.",
+    url:    "newsletter/newsletter-vol08.html"
+  },
+  {
+    id:     "vol07",
+    vol:    "Vol.7",
+    series: "resource",
+    title:  "바쁜 사람과 <em>시간이 있는 사람</em>",
+    desc:   "같은 24시간인데 어떤 사람은 축적되고 어떤 사람은 소모된다. 시간의 문제가 아니라 구조의 문제다.",
+    url:    "newsletter/newsletter-vol07.html"
+  },
+  {
+    id:     "vol06",
+    vol:    "Vol.6",
+    series: "structure",
+    title:  "건강을 소비하는 삶과 <em>투자하는 삶</em>",
+    desc:   "40대 이후 건강은 관리가 아니라 구조다. 루틴 없는 의지는 결국 소진된다. 삶의 구조 시리즈 완결편.",
+    url:    "newsletter/newsletter-vol06.html"
+  },
+  {
+    id:     "vol05",
+    vol:    "Vol.5",
+    series: "transition",
+    title:  "50대는 끝이 아닌 <em>2막의 시작이다</em>",
+    desc:   "인생 전반전을 잘 살아온 사람이 오히려 후반전에 멈추는 이유. 전환은 준비가 아니라 설계다. 5대 영역 전환 체크리스트 수록.",
+    url:    "newsletter/newsletter-vol05.html"
+  },
+  {
+    id:     "vol04",
+    vol:    "Vol.4",
+    series: "structure",
+    title:  "의미는 발견하는 것이 아니라 <em>설계하는 것이다</em>",
+    desc:   "의미 있는 삶을 기다리지 마라. 의미는 조건이 충족된 후 오지 않는다. Baumeister의 의미 4원천을 통해 지금 구조 안에서 만든다.",
+    url:    "newsletter/newsletter-vol04.html"
+  },
+  {
+    id:     "vol03",
+    vol:    "Vol.3",
+    series: "structure",
+    title:  "소비적 관계와 <em>자산적 관계</em>",
+    desc:   "모든 관계가 에너지를 채워주진 않는다. 40대 이후엔 관계도 설계해야 한다. 넓이보다 깊이, 의무보다 선택이 기준이 된다.",
+    url:    "newsletter/newsletter-vol03.html"
+  },
+  {
+    id:     "vol02",
+    vol:    "Vol.2",
+    series: "structure",
+    title:  "단층 수입과 <em>다층 수입</em>",
+    desc:   "하나의 수입원에 기대는 삶은 구조적으로 취약하다. 수입은 개수보다 설계가 문제다. 3층 수입 구조의 원리와 40대의 현실적 출발점.",
+    url:    "newsletter/newsletter-vol02.html"
+  },
+  {
+    id:     "vol01",
+    vol:    "Vol.1",
+    series: "structure",
+    title:  "소모적 일과 <em>축적적 일</em>",
+    desc:   "지금 하는 일이 5년 후에도 가치를 남기는가. 바쁨과 축적은 다르다. 일 구조를 설계하지 않으면 속도만 빨라질 뿐이다.",
+    url:    "newsletter/newsletter-vol01.html"
+  }
+  /* 새 호 추가 시 맨 앞에 , { ... } 형태로 추가 */
+];
 
-   domain 값: "work" | "income" | "health" | "relation" | "meaning"
-   featured: true → 아카이브 상단 메인 카드로 표시
+var SERIES_CONFIG = {
+  structure:  { label: "삶의 구조",   color: "#B8935A" },
+  transition: { label: "전환의 시간", color: "#2D6A5F" },
+  resource:   { label: "삶의 자원",   color: "#7B9E87" },
+  psychology: { label: "전환의 심리", color: "#A0856C" },
+  inner:      { label: "내면의 기술", color: "#8A7BA8" },
+  growth:     { label: "성장의 기술", color: "#4A7FA5" },
+  legacy:     { label: "레거시",      color: "#888078" }
+};
 
-   ── 예시 구조 ──
-   {
-     id: "001",
-     issue: "Vol.001",
-     domain: "meaning",
-     title: "왜 사는가를 다시 묻다",
-     subtitle: "의미 구조 — 충만한 삶을 위한 첫 번째 설계",
-     date: "2025년 6월",
-     readTime: "5분",
-     featured: true,
-     sections: [
-       {
-         type: "intro",         // 이달의 구조 질문
-         label: "이달의 구조 질문",
-         title: "...",
-         body: "..."
-       },
-       {
-         type: "main",          // 메인 큐레이션
-         label: "메인 큐레이션",
-         title: "...",
-         body: "...",
-         question: "..."        // 구조 체크 질문 (있을 경우)
-       },
-       {
-         type: "briefs",        // 도메인 브리핑 (4개 도메인)
-         label: "도메인 브리핑",
-         items: [
-           { domain: "work", color: "#B8935A", text: "...", insight: "..." },
-           ...
-         ]
-       },
-       {
-         type: "check",         // 이달의 구조 체크
-         label: "이달의 구조 체크",
-         title: "...",
-         questions: ["질문1", "질문2", "질문3"]
-       }
-     ]
-   }
-   ════════════════════════════════════════ */
+var currentFilter = "all";
 
-  var ISSUES = [
-    /* ─── 여기에 호를 추가하세요 ─── */
-    /* 예시 (주석 해제 후 내용 수정):
+function render() {
+  var filtered = currentFilter === "all"
+    ? ISSUES
+    : ISSUES.filter(function(i) { return i.series === currentFilter; });
 
-    {
-      id: "001",
-      issue: "Vol.001",
-      domain: "meaning",
-      title: "왜 사는가를\n다시 묻다",
-      subtitle: "의미 구조 — 충만한 삶을 위한 첫 번째 설계 원칙",
-      date: "2025년 6월",
-      readTime: "5분",
-      featured: true,
-      sections: [
-        {
-          type: "intro",
-          label: "이달의 구조 질문",
-          title: "당신의 하루는 누구의 설계로 채워지고 있는가",
-          body: "오늘 하루가 끝날 때, 충만함을 느끼셨나요? 아니면 소진됨을 느끼셨나요?\n\n이 질문은 단순해 보이지만, 삶 구조를 진단하는 가장 강력한 거울입니다. 충만함은 의미 구조에서, 소진됨은 구조의 부재에서 옵니다. 이번 호는 프리미너의 다섯 번째 영역, 의미 구조를 다룹니다."
-        },
-        {
-          type: "main",
-          label: "메인 큐레이션 · 의미 구조",
-          title: "의미는 발견하는 것이 아니라 설계하는 것이다",
-          body: "빅터 프랭클은 아우슈비츠에서 살아남은 후 이렇게 말했습니다. '인간은 어떤 상황에서도 의미를 선택할 수 있다.' 그의 통찰이 말해주는 것은 의미가 외부 조건의 산물이 아니라는 것입니다.\n\n마틴 셀리그만의 PERMA 모델 역시 같은 방향을 가리킵니다. 긍정적 감정, 몰입, 관계, 의미, 성취 — 이 다섯 요소가 충만한 삶을 구성합니다. 프리미너는 여기에 한 가지를 더합니다. 의미는 추상적 사명이 아니라, 일상의 구체적인 구조에서 만들어진다는 것.\n\n40대 이후의 의미 구조 설계는 세 가지 질문에서 시작됩니다. 무엇이 나를 살아있게 하는가. 어떤 시간에 나는 가장 나다운가. 사라졌을 때 무엇이 남기를 바라는가.",
-          question: "오늘 하루 중, 시간 가는 줄 몰랐던 순간이 있었나요? 그 순간 당신은 무엇을 하고 있었나요?"
-        },
-        {
-          type: "briefs",
-          label: "도메인 브리핑",
-          items: [
-            { domain: "일 구조", color: "#B8935A", text: "소모적 일 vs 축적적 일 — 5년 후 내 이름 앞에 무엇이 쌓이는가를 기준으로 지금의 일을 평가해보세요.", insight: "→ 지금의 일이 자산이 되고 있는가, 아니면 시간을 소모하고 있는가." },
-            { domain: "수입 구조", color: "#2D6A5F", text: "단일 수입 구조의 위험 — 직장 소득 외 두 번째 수입 채널을 실험하기 가장 좋은 시기는 여유가 있을 때입니다.", insight: "→ 지금 당신의 수입원은 몇 개인가요?" },
-            { domain: "건강 구조", color: "#7B9E87", text: "40대 이후 근력 — 유산소보다 근력이 먼저입니다. 근육량은 40대부터 매년 1% 감소하지만, 저항 운동으로 역전 가능합니다.", insight: "→ 이번 주 근력 운동을 했나요?" },
-            { domain: "관계 구조", color: "#A0856C", text: "에너지 방정식 — 관계는 에너지를 주는 관계와 빼앗는 관계로 나뉩니다. 지금 내 주변 관계의 에너지 방향을 점검해보세요.", insight: "→ 최근 만난 사람 중 나를 충전시킨 사람은 누구인가요?" }
-          ]
-        },
-        {
-          type: "check",
-          label: "이달의 구조 체크",
-          title: "의미 구조 자가 점검",
-          questions: [
-            "이번 달, 시간 가는 줄 모르고 몰입했던 순간이 있었나요?",
-            "10년 후 나는 어떤 사람으로 기억되고 싶은가에 대한 답이 있나요?",
-            "오늘 하루가 끝날 때 충만함과 소진됨 중 어느 쪽을 더 자주 느끼나요?"
-          ]
-        }
-      ]
-    }
+  var emptyEl   = document.getElementById("empty-state");
+  var featWrap  = document.getElementById("featured-wrap");
+  var gridEl    = document.getElementById("archive-grid");
+  var eyebrowEl = document.getElementById("archive-eyebrow");
 
-    */
-  ];
-
-/* ════════════════════════════════════════
-   도메인 설정
-════════════════════════════════════════ */
-  var DOMAIN_CONFIG = {
-    work:     { label: "일 구조",   color: "#B8935A", bg: "rgba(184,147,90,0.1)"  },
-    income:   { label: "수입 구조", color: "#2D6A5F", bg: "rgba(45,106,95,0.1)"   },
-    health:   { label: "건강 구조", color: "#7B9E87", bg: "rgba(123,158,135,0.1)" },
-    relation: { label: "관계 구조", color: "#A0856C", bg: "rgba(160,133,108,0.1)" },
-    meaning:  { label: "의미 구조", color: "#8A7BA8", bg: "rgba(138,123,168,0.1)" }
-  };
-
-/* ════════════════════════════════════════
-   STATE
-════════════════════════════════════════ */
-  var state = {
-    filter: "all",
-    view: "list",   // "list" | "detail"
-    currentId: null
-  };
-
-/* ════════════════════════════════════════
-   INIT
-════════════════════════════════════════ */
-  function init() {
-    updateStats();
-    updateHubCounts();
-    renderArchive();
-    bindTabs();
-    bindFilterBtns();
-    bindBackBtn();
-    initReveal();
-
-    // URL hash로 특정 호 바로 열기 지원
-    var hash = window.location.hash.replace('#', '');
-    if (hash) openIssue(hash);
+  if (filtered.length === 0) {
+    emptyEl.style.display   = "block";
+    featWrap.innerHTML      = "";
+    gridEl.innerHTML        = "";
+    eyebrowEl.style.display = "none";
+    return;
   }
 
-  function updateStats() {
-    var el = document.getElementById('stat-issues');
-    if (el) el.textContent = ISSUES.length || '준비중';
-  }
+  emptyEl.style.display = "none";
 
-  function updateHubCounts() {
-    ['work','income','health','relation','meaning'].forEach(function(d) {
-      var count = ISSUES.filter(function(i){ return i.domain === d; }).length;
-      var el = document.getElementById('hub-count-' + d);
-      if (el) el.textContent = '관련 레터 ' + count + '편';
-    });
-  }
+  if (currentFilter === "all" && filtered.length > 0) {
+    var latest = filtered[0];
+    var sc = SERIES_CONFIG[latest.series] || {};
+    var parts = [];
+    parts.push('<div class="featured-section reveal">');
+    parts.push('<div class="section-eyebrow">최신 호</div>');
+    parts.push('<a class="featured-card" href="' + latest.url + '">');
+    parts.push('<div class="fc-left">');
+    parts.push('<div class="fc-issue">' + latest.vol + '</div>');
+    parts.push('<div class="fc-series" style="color:' + sc.color + ';border-color:' + sc.color + '44;">' + sc.label + '</div>');
+    parts.push('<div class="fc-title">' + latest.title + '</div>');
+    parts.push('<p class="fc-desc">' + latest.desc + '</p>');
+    
+    parts.push('</div>');
+    parts.push('<div class="fc-right">');
+    parts.push('<div class="fc-vol">' + latest.vol + '</div>');
+    parts.push('<span class="fc-read-btn">읽기 →</span>');
+    parts.push('</div>');
+    parts.push('</a>');
+    parts.push('</div>');
+    featWrap.innerHTML = parts.join("");
 
-/* ════════════════════════════════════════
-   RENDER ARCHIVE
-════════════════════════════════════════ */
-  function renderArchive() {
-    var filter = state.filter;
-    var filtered = filter === 'all'
-      ? ISSUES
-      : ISSUES.filter(function(i){ return i.domain === filter; });
-
-    var comingSoon = document.getElementById('coming-soon-block');
-    var featuredWrap = document.getElementById('featured-wrap');
-    var listEl = document.getElementById('archive-list');
-
-    if (ISSUES.length === 0) {
-      comingSoon.style.display = 'block';
-      featuredWrap.style.display = 'none';
-      listEl.innerHTML = '';
-      return;
-    }
-
-    comingSoon.style.display = 'none';
-
-    // Featured (최신 호) — 전체 필터일 때만 표시
-    if (filter === 'all' && ISSUES.length > 0) {
-      var latest = ISSUES[0];
-      featuredWrap.style.display = 'block';
-      featuredWrap.innerHTML = renderFeatured(latest);
-      featuredWrap.querySelector('.featured-issue').addEventListener('click', function() {
-        openIssue(latest.id);
-      });
+    var rest = filtered.slice(1);
+    if (rest.length > 0) {
+      eyebrowEl.style.display = "block";
+      gridEl.innerHTML = rest.map(renderCard).join("");
     } else {
-      featuredWrap.style.display = 'none';
+      eyebrowEl.style.display = "none";
+      gridEl.innerHTML = "";
     }
-
-    // Archive list (최신 호 제외, 전체 필터일 때)
-    var listItems = filter === 'all' && ISSUES.length > 1
-      ? filtered.slice(1)
-      : filtered;
-
-    if (listItems.length === 0 && filter !== 'all') {
-      listEl.innerHTML = '<div class="archive-empty"><div class="archive-empty-icon">○</div>아직 이 영역의 레터가 없습니다.<br>곧 발행 예정입니다.</div>';
-      return;
-    }
-
-    listEl.innerHTML = listItems.map(function(issue) {
-      return renderArchiveItem(issue);
-    }).join('');
-
-    listEl.querySelectorAll('.archive-item').forEach(function(el) {
-      el.addEventListener('click', function() {
-        openIssue(el.dataset.id);
-      });
-    });
+  } else {
+    featWrap.innerHTML      = "";
+    eyebrowEl.style.display = "block";
+    gridEl.innerHTML = filtered.map(renderCard).join("");
   }
 
-  function renderFeatured(issue) {
-    var dc = DOMAIN_CONFIG[issue.domain] || {};
-    return '<div class="featured-issue" style="cursor:pointer;">'
-      + '<div>'
-      + '<div class="fi-eyebrow">최신 호 · ' + issue.issue + '</div>'
-      + '<h3 class="fi-title">' + issue.title.replace(/\n/g,'<br>') + '</h3>'
-      + '<p class="fi-sub">' + issue.subtitle + '</p>'
-      + '<div class="fi-meta">'
-      + '<div class="fi-meta-item">' + issue.date + '</div>'
-      + '<div class="fi-meta-item">읽는 시간 ' + issue.readTime + '</div>'
-      + '<div class="fi-meta-item" style="color:' + dc.color + ';">' + (dc.label || '') + '</div>'
-      + '</div></div>'
-      + '<div class="fi-right">'
-      + '<div class="fi-issue-num">' + issue.issue + '</div>'
-      + '<button class="btn-read-issue">읽기 →</button>'
-      + '</div></div>';
-  }
+  initReveal();
+}
 
-  function renderArchiveItem(issue) {
-    var dc = DOMAIN_CONFIG[issue.domain] || {};
-    return '<div class="archive-item" data-id="' + issue.id + '">'
-      + '<div class="ai-issue"><div class="ai-issue-num">' + issue.id + '</div><div>호</div></div>'
-      + '<div class="ai-body">'
-      + '<div class="ai-domain-tag" style="color:' + dc.color + ';background:' + dc.bg + ';">'
-      + dc.label
-      + '</div>'
-      + '<div class="ai-title">' + issue.title.replace(/\n/g,' ') + '</div>'
-      + '<div class="ai-subtitle">' + issue.subtitle + '</div>'
-      + '<div class="ai-meta">'
-      + '<div class="ai-date">' + issue.date + '</div>'
-      + '<div class="ai-read">' + issue.readTime + ' 읽기</div>'
-      + '</div></div>'
-      + '<div class="ai-right"><div class="ai-arrow">→</div></div>'
-      + '</div>';
-  }
+function renderCard(issue) {
+  var sc = SERIES_CONFIG[issue.series] || {};
+  var parts = [];
+  parts.push('<a class="archive-card reveal" href="' + issue.url + '">');
+  parts.push('<div class="ac-top">');
+  parts.push('<div class="ac-series" style="color:' + sc.color + ';border-color:' + sc.color + '44;">' + sc.label + '</div>');
+  parts.push('<div class="ac-title">' + issue.title + '</div>');
+  parts.push('<p class="ac-desc">' + issue.desc + '</p>');
+  parts.push('</div>');
+  parts.push('<div class="ac-bottom">');
+  
+  parts.push('<div class="ac-meta">' + issue.vol + '</div>');
+    parts.push('<div class="ac-vol">' + issue.vol + '</div>');
+  parts.push('<div class="ac-arrow">읽기 →</div>');
+  parts.push('</div>');
+  parts.push('</a>');
+  return parts.join("");
+}
 
-/* ════════════════════════════════════════
-   ISSUE DETAIL
-════════════════════════════════════════ */
-  function openIssue(id) {
-    var issue = ISSUES.find(function(i){ return i.id === id; });
-    if (!issue) return;
+document.querySelectorAll(".fb-tab").forEach(function(tab) {
+  tab.addEventListener("click", function() {
+    currentFilter = tab.dataset.filter;
+    document.querySelectorAll(".fb-tab").forEach(function(t) { t.classList.remove("active"); });
+    tab.classList.add("active");
+    render();
+    window.scrollTo({ top: document.getElementById("filter-bar").offsetTop - 72, behavior: "smooth" });
+  });
+});
 
-    state.view = 'detail';
-    state.currentId = id;
-    window.location.hash = id;
-
-    document.getElementById('view-list').style.display = 'none';
-    document.getElementById('view-detail').classList.add('active');
-
-    renderDetail(issue);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function closeIssue() {
-    state.view = 'list';
-    state.currentId = null;
-    history.replaceState(null, '', window.location.pathname);
-
-    document.getElementById('view-list').style.display = 'block';
-    document.getElementById('view-detail').classList.remove('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function renderDetail(issue) {
-    var dc = DOMAIN_CONFIG[issue.domain] || {};
-
-    // Header
-    document.getElementById('detail-header').innerHTML =
-      '<div class="ih-issue-meta">'
-      + '<div class="ih-issue-num">' + issue.issue + '</div>'
-      + '<div class="ih-domain-tag" style="color:' + dc.color + ';background:' + dc.bg + ';">' + dc.label + '</div>'
-      + '</div>'
-      + '<h1 class="ih-title">' + issue.title.replace(/\n/g,'<br>') + '</h1>'
-      + '<p class="ih-subtitle">' + issue.subtitle + '</p>'
-      + '<div class="ih-meta-row">'
-      + '<div class="ihm-item">' + issue.date + '</div>'
-      + '<div class="ihm-item">읽는 시간 ' + issue.readTime + '</div>'
-      + '</div>';
-
-    // Content sections
-    var html = '';
-    (issue.sections || []).forEach(function(sec) {
-      html += '<div class="ic-section">';
-      html += '<div class="ic-section-label">' + sec.label + '</div>';
-
-      if (sec.type === 'intro' || sec.type === 'main') {
-        html += '<div class="ic-section-title">' + sec.title + '</div>';
-        html += '<div class="ic-section-body">';
-        (sec.body || '').split('\n\n').forEach(function(p) {
-          if (p.trim()) html += '<p>' + p.replace(/\n/g,'<br>') + '</p>';
-        });
-        html += '</div>';
-        if (sec.question) {
-          html += '<div class="ic-question-block">'
-            + '<div class="ic-question-label">구조 체크 질문</div>'
-            + '<div class="ic-question-text">' + sec.question + '</div>'
-            + '</div>';
-        }
-      } else if (sec.type === 'briefs') {
-        html += '<div class="ic-briefs">';
-        (sec.items || []).forEach(function(item) {
-          html += '<div class="ic-brief">'
-            + '<div class="ic-brief-dot" style="background:' + item.color + ';"></div>'
-            + '<div class="ic-brief-content">'
-            + '<div class="ic-brief-domain">' + item.domain + '</div>'
-            + '<div class="ic-brief-text">' + item.text + '</div>'
-            + (item.insight ? '<div class="ic-brief-insight">' + item.insight + '</div>' : '')
-            + '</div></div>';
-        });
-        html += '</div>';
-      } else if (sec.type === 'check') {
-        html += '<div class="ic-section-title">' + sec.title + '</div>';
-        html += '<div class="ic-section-body">';
-        (sec.questions || []).forEach(function(q, i) {
-          html += '<p><strong>' + (i+1) + '.</strong> ' + q + '</p>';
-        });
-        html += '</div>';
-        html += '<div class="ic-cta-block">'
-          + '<div class="ic-cta-label">DIAGNOSIS · 삶 구조 진단</div>'
-          + '<div class="ic-cta-text">22개 문항으로 나의 5대 영역을<br>정확하게 진단하세요</div>'
-          + '<a class="btn-cta-diag" href="diagnosis.html">무료 진단 시작하기 →</a>'
-          + '</div>';
+function initReveal() {
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add("revealed");
+        obs.unobserve(e.target);
       }
-
-      html += '</div>';
     });
-    document.getElementById('detail-content').innerHTML = html;
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".reveal:not(.revealed)").forEach(function(el) { obs.observe(el); });
+}
 
-    // Related issues
-    var related = ISSUES
-      .filter(function(i){ return i.id !== issue.id; })
-      .slice(0, 3);
-    var relHtml = related.length
-      ? related.map(function(r) {
-          var rdc = DOMAIN_CONFIG[r.domain] || {};
-          return '<a class="sr-item" href="#" onclick="openIssue(\'' + r.id + '\');return false;">'
-            + '<div class="sr-item-tag">' + r.issue + ' · ' + rdc.label + '</div>'
-            + '<div class="sr-item-title">' + r.title.replace(/\n/g,' ') + '</div>'
-            + '</a>';
-        }).join('')
-      : '<p style="font-size:0.8rem;color:var(--silver);font-weight:300;">다른 레터가 발행되면 표시됩니다.</p>';
-    document.getElementById('related-items').innerHTML = relHtml;
-  }
-
-/* ════════════════════════════════════════
-   FILTERS & TABS
-════════════════════════════════════════ */
-  function filterDomain(domain) {
-    state.filter = domain;
-
-    // sync tabs
-    document.querySelectorAll('.dhn-tab').forEach(function(t) {
-      t.classList.toggle('active', t.dataset.domain === domain);
+(function() {
+  var btn  = document.getElementById("hamburger");
+  var menu = document.getElementById("mobile-nav");
+  if (!btn || !menu) return;
+  btn.addEventListener("click", function() {
+    btn.classList.toggle("open");
+    menu.classList.toggle("open");
+    document.body.style.overflow = menu.classList.contains("open") ? "hidden" : "";
+  });
+  menu.querySelectorAll("a").forEach(function(a) {
+    a.addEventListener("click", function() {
+      btn.classList.remove("open");
+      menu.classList.remove("open");
+      document.body.style.overflow = "";
     });
-    // sync filter btns
-    document.querySelectorAll('.filter-btn').forEach(function(b) {
-      b.classList.toggle('active', b.dataset.filter === domain);
-    });
+  });
+})();
 
-    renderArchive();
-
-    // scroll to archive
-    var archiveEl = document.getElementById('section-archive');
-    if (archiveEl) archiveEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function bindTabs() {
-    document.querySelectorAll('.dhn-tab').forEach(function(tab) {
-      tab.addEventListener('click', function() {
-        filterDomain(tab.dataset.domain);
-      });
-    });
-  }
-
-  function bindFilterBtns() {
-    document.querySelectorAll('.filter-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        filterDomain(btn.dataset.filter);
-      });
-    });
-  }
-
-  function bindBackBtn() {
-    document.getElementById('btn-back').addEventListener('click', closeIssue);
-  }
-
-/* ════════════════════════════════════════
-   REVEAL ANIMATION
-════════════════════════════════════════ */
-  function initReveal() {
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) {
-          e.target.classList.add('revealed');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(function(el) {
-      observer.observe(el);
-    });
-  }
-
-/* ════════════════════════════════════════
-   HAMBURGER
-════════════════════════════════════════ */
-  (function() {
-    var btn = document.getElementById('hamburger');
-    var menu = document.getElementById('mobile-nav');
-    if (!btn || !menu) return;
-    btn.addEventListener('click', function() {
-      btn.classList.toggle('open');
-      menu.classList.toggle('open');
-      document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-    });
-    menu.querySelectorAll('a').forEach(function(a) {
-      a.addEventListener('click', function() {
-        btn.classList.remove('open');
-        menu.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    });
-  })();
-
-/* ── START ── */
-  document.addEventListener('DOMContentLoaded', init);
+document.addEventListener("DOMContentLoaded", function() { render(); initReveal(); });
 </script>
 
+<script src="copy-protect.js"></script>
 </body>
 </html>
