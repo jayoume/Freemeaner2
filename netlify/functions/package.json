@@ -1,1 +1,8 @@
-
+{
+  "name": "freemeaner-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions — Google Sheets REST API + Gmail + Claude API",
+  "dependencies": {
+    "nodemailer": "^6.9.0"
+  }
+}
