@@ -1,8 +1,0 @@
-{
-  "name": "freemeaner",
-  "version": "1.0.0",
-  "description": "FreeMeaner website with Netlify Functions",
-  "dependencies": {
-    "nodemailer": "^6.9.0"
-  }
-}
